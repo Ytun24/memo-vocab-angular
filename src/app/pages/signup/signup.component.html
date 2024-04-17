@@ -8,12 +8,18 @@
     <h2
       class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
     >
-      Sign up 
+      Sign up
     </h2>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form class="space-y-6" action="#" method="POST" [formGroup]="signUpFormGroup" (ngSubmit)="onSubmit()">
+    <form
+      class="space-y-6"
+      action="#"
+      method="POST"
+      [formGroup]="signUpFormGroup"
+      (ngSubmit)="onSubmit()"
+    >
       <div>
         <label
           for="email"
@@ -25,11 +31,20 @@
             id="email"
             name="email"
             type="email"
-            autocomplete="email"
             required
             formControlName="email"
+            [ngClass]="{
+              'ring-red-700': email.invalid && (email.dirty || email.touched)
+            }"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+        </div>
+        <div
+          *ngIf="email.invalid && (email.dirty || email.touched)"
+          class="text-red-700 text-sm leading-6 py-1"
+        >
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+          <div *ngIf="email.errors?.['email']">E-mail is invalid</div>
         </div>
       </div>
 
@@ -44,11 +59,22 @@
             id="name"
             name="name"
             type="text"
-            autocomplete="name"
             required
             formControlName="name"
+            [ngClass]="{
+              'ring-red-700': name.invalid && (name.dirty || name.touched)
+            }"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+        </div>
+        <div
+          *ngIf="name.invalid && (name.dirty || name.touched)"
+          class="text-red-700 text-sm leading-6 py-1"
+        >
+          <div *ngIf="name.errors?.['required']">Name is required.</div>
+          <div *ngIf="name.errors?.['pattern']">
+            Name should be only alphabet and spaces
+          </div>
         </div>
       </div>
 
@@ -65,11 +91,25 @@
             id="password"
             name="password"
             type="password"
-            autocomplete="current-password"
             required
             formControlName="password"
+            [ngClass]="{
+              'ring-red-700':
+                password.invalid && (password.dirty || password.touched)
+            }"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+          <div
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="text-red-700 text-sm leading-6 py-1"
+          >
+            <div *ngIf="password.errors?.['required']">
+              Password is required.
+            </div>
+            <div *ngIf="password.errors?.['minlength']">
+              Password should have at least 5 characters
+            </div>
+          </div>
         </div>
       </div>
 
@@ -78,7 +118,7 @@
           <label
             for="confirm-password"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Confirm Password</label
+            >Confirm password</label
           >
         </div>
         <div class="mt-2">
@@ -86,11 +126,29 @@
             id="confirm-password"
             name="confirm-password"
             type="password"
-            autocomplete=""
             required
             formControlName="confirmPassword"
+            [ngClass]="{
+              'ring-red-700':
+                confirmPassword.invalid &&
+                (confirmPassword.dirty || confirmPassword.touched)
+            }"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+          <div
+            *ngIf="
+              confirmPassword.invalid &&
+              (confirmPassword.dirty || confirmPassword.touched)
+            "
+            class="text-red-700 text-sm leading-6 py-1"
+          >
+            <div *ngIf="confirmPassword.errors?.['required']">
+              Confirm password is required.
+            </div>
+            <div *ngIf="confirmPassword.errors?.['minlength']">
+              Confirm password should have at least 5 characters
+            </div>
+          </div>
         </div>
       </div>
 
