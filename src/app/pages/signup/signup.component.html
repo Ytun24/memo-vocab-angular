@@ -15,9 +15,10 @@
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
     <form
       class="space-y-6"
+      id="signup-form"
       action="#"
       method="POST"
-      [formGroup]="signUpFormGroup"
+      [formGroup]="signupFormGroup"
       (ngSubmit)="onSubmit()"
     >
       <div>
@@ -41,6 +42,7 @@
         </div>
         <div
           *ngIf="email.invalid && (email.dirty || email.touched)"
+          id="email-validation-error"
           class="text-red-700 text-sm leading-6 py-1"
         >
           <div *ngIf="email.errors?.['required']">Email is required.</div>
@@ -69,6 +71,7 @@
         </div>
         <div
           *ngIf="name.invalid && (name.dirty || name.touched)"
+          id="name-validation-error"
           class="text-red-700 text-sm leading-6 py-1"
         >
           <div *ngIf="name.errors?.['required']">Name is required.</div>
@@ -101,6 +104,7 @@
           />
           <div
             *ngIf="password.invalid && (password.dirty || password.touched)"
+            id="password-validation-error"
             class="text-red-700 text-sm leading-6 py-1"
           >
             <div *ngIf="password.errors?.['required']">
@@ -140,6 +144,7 @@
               confirmPassword.invalid &&
               (confirmPassword.dirty || confirmPassword.touched)
             "
+            id="confirm-password-validation-error"
             class="text-red-700 text-sm leading-6 py-1"
           >
             <div *ngIf="confirmPassword.errors?.['required']">
@@ -164,4 +169,4 @@
   </div>
 </div>
 
-<p>Value: {{ signUpFormGroup.value | json }}</p>
+<p>Value: {{ signupFormGroup.value | json }}</p>

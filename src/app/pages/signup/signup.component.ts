@@ -17,12 +17,12 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  signUpFormGroup: any;
+  signupFormGroup: any;
 
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    this.signUpFormGroup = new FormGroup({
+    this.signupFormGroup = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       name: new FormControl('', [
         Validators.required,
@@ -40,9 +40,9 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    if (this.signUpFormGroup.valid) {
+    if (this.signupFormGroup.valid) {
       this.authService
-        .postSignUp(this.signUpFormGroup.value)
+        .postSignUp(this.signupFormGroup.value)
         .subscribe((data) => {
           console.log(data);
           this.router.navigate(['/login']);
@@ -51,18 +51,18 @@ export class SignupComponent {
   }
 
   get email() {
-    return this.signUpFormGroup.get('email');
+    return this.signupFormGroup.get('email');
   }
 
   get name() {
-    return this.signUpFormGroup.get('name');
+    return this.signupFormGroup.get('name');
   }
 
   get password() {
-    return this.signUpFormGroup.get('password');
+    return this.signupFormGroup.get('password');
   }
 
   get confirmPassword() {
-    return this.signUpFormGroup.get('confirmPassword');
+    return this.signupFormGroup.get('confirmPassword');
   }
 }
