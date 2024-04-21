@@ -1,4 +1,6 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+<div
+  class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 relative"
+>
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <img
       class="mx-auto h-10 w-auto"
@@ -16,8 +18,10 @@
     <form
       class="space-y-6"
       action="#"
-      method="GET"
-      (ngSubmit)="onSubmit()"
+      method="POST"
+      id="login-form"
+      (ngSubmit)="onSubmit(loginForm)"
+      #loginForm="ngForm"
     >
       <div>
         <label
@@ -32,9 +36,20 @@
             type="email"
             autocomplete="email"
             required
-            [(ngModel)]="email"
+            ngModel
+            #email="ngModel"
+            [ngClass]="{
+              'ring-red-700': email.invalid && (email.dirty || email.touched)
+            }"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+        </div>
+        <div
+          *ngIf="email.invalid && (email.dirty || email.touched)"
+          id="email-validation-error"
+          class="text-red-700 text-sm leading-6 py-1"
+        >
+          Email is required.
         </div>
       </div>
 
@@ -53,9 +68,25 @@
             type="password"
             autocomplete="current-password"
             required
-            [(ngModel)]="password"
+            ngModel
+            minlength="5"
+            #password="ngModel"
+            [ngClass]="{
+              'ring-red-700':
+                password.invalid && (password.dirty || password.touched)
+            }"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+        </div>
+        <div
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+          id="password-validation-error"
+          class="text-red-700 text-sm leading-6 py-1"
+        >
+          <div *ngIf="password.errors?.['required']">Password is required.</div>
+          <div *ngIf="password.errors?.['minlength']">
+            Password should have at least 5 characters
+          </div>
         </div>
       </div>
 
@@ -69,4 +100,19 @@
       </div>
     </form>
   </div>
+
+  <app-notification
+    [display]="displayNoti"
+    [status]="'error'"
+    [message]="{ title: 'Login Fail', paragraph: '' }"
+  ></app-notification>
 </div>
+
+Email Errors: {{ email.errors | json }} Email Invalid:
+{{ email.invalid | json }}
+<br />
+Password Errors: {{ password.errors | json }}
+<br />
+Value:
+{{ loginForm.value | json }}
+{{ loginForm.valid | json }}
