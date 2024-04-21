@@ -8,16 +8,18 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NotificationComponent } from '../../components/notification/notification.component';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NotificationComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
   signupFormGroup: any;
+  displayNoti = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -41,12 +43,15 @@ export class SignupComponent {
 
   onSubmit() {
     if (this.signupFormGroup.valid) {
-      this.authService
-        .postSignUp(this.signupFormGroup.value)
-        .subscribe((data) => {
+      this.authService.postSignUp(this.signupFormGroup.value).subscribe({
+        next: (data) => {
           console.log(data);
           this.router.navigate(['/login']);
-        });
+        },
+        error: (error: any) => {
+          this.displayNoti = true;
+        },
+      });
     }
   }
 
