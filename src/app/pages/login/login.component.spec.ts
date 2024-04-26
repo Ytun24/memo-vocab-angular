@@ -5,8 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
-import { Router } from '@angular/router';
-
+import { Router, RouterLink, provideRouter } from '@angular/router';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -14,13 +13,20 @@ describe('LoginComponent', () => {
   let authService: AuthService;
   let router = {
     navigate: jasmine.createSpy('navigate'),
+    routerState: { root: '' },
+    events: of({}),
+    createUrlTree: (commands: any, navExtras = {}) => {},
+    serializeUrl: () => {},
   };
-
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginComponent, HttpClientTestingModule],
-      providers: [AuthService, { provide: Router, useValue: router }],
+      imports: [LoginComponent, HttpClientTestingModule, RouterLink],
+      providers: [
+        AuthService,
+        provideRouter([]),
+        { provide: Router, useValue: router },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -33,7 +39,6 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should redirect to login when form is valid and call signup successfully', () => {
     const authServiceSpy = spyOn(authService, 'postLogin').and.returnValue(
       of({})
@@ -41,7 +46,7 @@ describe('LoginComponent', () => {
 
     const mockUserValue = {
       email: 'test@mail.com',
-      password: 'password'
+      password: 'password',
     };
 
     inputAndSubmitLoginForm(fixture, mockUserValue);
@@ -56,7 +61,7 @@ describe('LoginComponent', () => {
     );
     const mockUserValue = {
       email: 'test@mail.com',
-      password: 'password'
+      password: 'password',
     };
 
     inputAndSubmitLoginForm(fixture, mockUserValue);
@@ -122,7 +127,9 @@ const inputAndSubmitLoginForm = (fixture: any, mockUserValue: any) => {
   emailEl.value = mockUserValue.email;
   emailEl.dispatchEvent(new Event('input'));
 
-  const passwordDe = fixture.debugElement.query(By.css('input[name="password"]'));
+  const passwordDe = fixture.debugElement.query(
+    By.css('input[name="password"]')
+  );
   const passwordEl = passwordDe.nativeElement;
   passwordEl.value = mockUserValue.password;
   passwordEl.dispatchEvent(new Event('input'));
@@ -131,4 +138,4 @@ const inputAndSubmitLoginForm = (fixture: any, mockUserValue: any) => {
   const signupForm = fixture.debugElement.query(By.css('#login-form'));
   signupForm.triggerEventHandler('submit');
   fixture.detectChanges();
-}
+};
