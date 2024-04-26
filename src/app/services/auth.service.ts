@@ -1,21 +1,33 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { tap } from 'rxjs';
+import { environment } from '../../../environment/environment.development';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  beUrl = 'http://localhost:8080';
+  isBrowser: boolean;
 
-  constructor(private http: HttpClient) {}
-
-  postSignUp(userData: any) {
-    return this.http.post<any>(this.beUrl + '/signup', userData);
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  postLogin(userAuth: any) {
-    return this.http.post<any>(this.beUrl + '/login', userAuth).pipe(
+  postSignUp(userData: {
+    email: string;
+    name: string;
+    password: string;
+    confirmPassword: string;
+  }) {
+    return this.http.post<any>(environment.beUrl + '/signup', userData);
+  }
+
+  postLogin(userAuth: { email: string; password: string }) {
+    return this.http.post<any>(environment.beUrl + '/login', userAuth).pipe(
       tap((data) => {
         this.setAuthToken(data.token);
       })
@@ -27,6 +39,15 @@ export class AuthService {
   }
 
   getAuthToken(): string {
-    return localStorage.getItem('token') ?? '';
+    if (this.isBrowser) {
+      return localStorage.getItem('token') ?? '';
+    }
+    return '';
+  }
+
+  removeAuthToken(): void {
+    if (this.isBrowser) {
+      localStorage.removeItem('token');
+    }
   }
 }
