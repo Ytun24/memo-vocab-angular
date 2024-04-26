@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NotificationComponent } from '../../components/notification/notification.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, NotificationComponent],
+  imports: [FormsModule, CommonModule, NotificationComponent, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

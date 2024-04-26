@@ -34,8 +34,26 @@ export class AuthService {
     );
   }
 
-  setAuthToken(token: string) {
-    localStorage.setItem('token', token ?? '');
+  postForgotPassword(reqBody: { email: string }) {
+    return this.http.post<any>(environment.beUrl + '/forgot-password', reqBody);
+  }
+
+  postResetPassword(resetPasswordReq: {
+    password: string;
+    confirmPassword: string;
+    resetToken: string;
+    userId: string;
+  }) {
+    return this.http.post<any>(
+      environment.beUrl + '/reset-password',
+      resetPasswordReq
+    );
+  }
+
+  setAuthToken(token: string): void {
+    if (this.isBrowser) {
+      localStorage.setItem('token', token ?? '');
+    }
   }
 
   getAuthToken(): string {
