@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NotificationComponent } from '../../components/notification/notification.component';
+import { matcherValidator } from '../../validators/matcherValidator';
 
 @Component({
   selector: 'app-signup',
@@ -38,7 +39,7 @@ export class SignupComponent {
         Validators.required,
         Validators.minLength(5),
       ]),
-    });
+    }, matcherValidator('password', 'confirmPassword'));
   }
 
   onSubmit() {

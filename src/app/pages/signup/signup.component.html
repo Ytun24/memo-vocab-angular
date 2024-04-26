@@ -159,6 +159,19 @@
         </div>
       </div>
 
+      <div
+        *ngIf="
+          (confirmPassword.dirty || confirmPassword.touched) &&
+          (password.dirty || password.touched)
+        "
+        id="matcher-password-validation-error"
+        class="text-red-700 text-sm leading-6 py-1"
+      >
+        <div *ngIf="signupFormGroup.errors?.['matcherValidator']">
+          Password have to match with confirm password
+        </div>
+      </div>
+
       <div>
         <button
           type="submit"
@@ -177,3 +190,4 @@
   ></app-notification>
 </div>
 <p>Value: {{ signupFormGroup.value | json }}</p>
+<p>Errors: {{ signupFormGroup.errors | json }}</p>
