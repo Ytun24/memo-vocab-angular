@@ -36,6 +36,7 @@
             type="email"
             autocomplete="email"
             required
+            email
             ngModel
             #email="ngModel"
             [ngClass]="{
@@ -49,7 +50,8 @@
           id="email-validation-error"
           class="text-red-700 text-sm leading-6 py-1"
         >
-          Email is required.
+        <div *ngIf="email.errors?.['required']">Email is required.</div>
+        <div *ngIf="email.errors?.['email']">E-mail is invalid</div>
         </div>
       </div>
 

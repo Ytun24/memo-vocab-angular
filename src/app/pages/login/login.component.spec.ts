@@ -97,7 +97,7 @@ describe('LoginComponent', () => {
     expect(passwordValidationError).toBeTruthy();
   });
 
-  it('should display password validation error message when format validation error', () => {
+  it('should display validation error message when format validation error', () => {
     const mockUserValue = {
       email: 'invalid-mail',
       password: 'invl',
@@ -105,9 +105,13 @@ describe('LoginComponent', () => {
 
     inputAndSubmitLoginForm(fixture, mockUserValue);
 
+    const emailValidationError = fixture.debugElement.query(
+      By.css('#email-validation-error')
+    );
     const passwordValidationError = fixture.debugElement.query(
       By.css('#password-validation-error')
     );
+    expect(emailValidationError).toBeTruthy();
     expect(passwordValidationError).toBeTruthy();
   });
 });
