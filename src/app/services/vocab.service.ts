@@ -7,12 +7,12 @@ import { Vocab } from '../interfaces/vocab';
   providedIn: 'root',
 })
 export class VocabService {
-  beUrl = 'http://localhost:8080';
-
   constructor(private http: HttpClient) {}
 
-  getVocabs() {
-    return this.http.get<any>(this.beUrl + '/vocabs');
+  getVocabs(page?: number) {
+    const options = page ? { params: new HttpParams().set('page', page) } : {};
+    return this.http.get<any>(environment.beUrl + '/vocabs', options);
+  }
 
   postVocab(vocab: Vocab) {
     const formData = new FormData();
