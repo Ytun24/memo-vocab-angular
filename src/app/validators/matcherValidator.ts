@@ -1,11 +1,9 @@
 import {
   AbstractControl,
-  FormControl,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
 
-/** A hero's name can't match the given regular expression */
 export function matcherValidator(
   controlName1: string,
   controlName2: string

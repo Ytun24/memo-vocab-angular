@@ -59,12 +59,4 @@ export class ResetPasswordComponent {
   get confirmPassword(): FormControl {
     return this.resetPasswordForm.get('confirmPassword');
   }
-
-  get userId(): FormControl {
-    return this.resetPasswordForm.get('userId');
-  }
-
-  get resetToken(): FormControl {
-    return this.resetPasswordForm.get('resetToken');
-  }
 }
