@@ -39,7 +39,7 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should redirect to login when form is valid and call signup successfully', () => {
+  it('should redirect to home when form is valid and call signup successfully', () => {
     const authServiceSpy = spyOn(authService, 'postLogin').and.returnValue(
       of({})
     );
