@@ -162,14 +162,13 @@
       <div
         *ngIf="
           (confirmPassword.dirty || confirmPassword.touched) &&
-          (password.dirty || password.touched)
+          (password.dirty || password.touched) && 
+          signupFormGroup.errors?.['matcherValidator']
         "
         id="matcher-password-validation-error"
         class="text-red-700 text-sm leading-6 py-1"
       >
-        <div *ngIf="signupFormGroup.errors?.['matcherValidator']">
-          Password have to match with confirm password
-        </div>
+        Password have to match with confirm password
       </div>
 
       <div>

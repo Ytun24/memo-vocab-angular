@@ -157,4 +157,24 @@ describe('SignupComponent', () => {
     expect(passwordValidationError).toBeTruthy();
     expect(confirmPasswordValidationError).toBeTruthy();
   });
+
+  it('should display password matcher validation error when password is not match', () => {
+    const mockUserValue = {
+      email: '',
+      confirmPassword: 'confirm-password',
+      password: 'password',
+      name: '',
+    };
+    component.signupFormGroup.patchValue(mockUserValue);
+    component.signupFormGroup.markAllAsTouched();
+
+    const signupForm = fixture.debugElement.query(By.css('#signup-form'));
+    signupForm.triggerEventHandler('submit');
+    fixture.detectChanges();
+
+    const matcherPasswordValidationError = fixture.debugElement.query(
+      By.css('#matcher-password-validation-error')
+    );
+    expect(matcherPasswordValidationError).toBeTruthy();
+  });
 });
