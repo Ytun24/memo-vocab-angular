@@ -102,6 +102,33 @@ describe('ResetPasswordComponent', () => {
     expect(authServiceSpy).not.toHaveBeenCalled();
   });
 
+  it('should display validation error and not call reset password when password value is not valid', () => {
+    const mockUserValue = {
+      confirmPassword: 'pass',
+      password: 'pass',
+    };
+    const authServiceSpy = spyOn(authService, 'postResetPassword').and.stub();
+    component.resetPasswordForm.patchValue(mockUserValue);
+    component.resetPasswordForm.markAllAsTouched();
+
+    const resetPasswordForm = fixture.debugElement.query(
+      By.css('#reset-password-form')
+    );
+    resetPasswordForm.triggerEventHandler('submit');
+    fixture.detectChanges();
+
+    const passwordValidationError = fixture.debugElement.query(
+      By.css('#password-validation-error')
+    );
+    const confirmPasswordValidationError = fixture.debugElement.query(
+      By.css('#confirm-password-validation-error')
+    );
+
+    expect(passwordValidationError).toBeTruthy();
+    expect(confirmPasswordValidationError).toBeTruthy();
+    expect(authServiceSpy).not.toHaveBeenCalled();
+  });
+
   it('should display error notification when form is valid and call reset password fail', () => {
     const authServiceSpy = spyOn(
       authService,

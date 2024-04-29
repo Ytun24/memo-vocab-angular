@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { NotificationComponent } from '../../components/notification/notification.component';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { matcherValidator } from '../../validators/matcherValidator';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,8 +33,8 @@ export class ResetPasswordComponent {
     const resetToken = this.route.snapshot.queryParamMap.get('token');
     this.resetPasswordForm = this.formBuilder.group(
       {
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(5)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(5)]],
         userId: [userId],
         resetToken: [resetToken],
       },
