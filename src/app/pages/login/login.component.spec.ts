@@ -135,7 +135,7 @@ const inputAndSubmitLoginForm = (fixture: any, mockUserValue: any) => {
   passwordEl.dispatchEvent(new Event('input'));
   fixture.detectChanges();
 
-  const signupForm = fixture.debugElement.query(By.css('#login-form'));
-  signupForm.triggerEventHandler('submit');
+  const loginForm = fixture.debugElement.query(By.css('#login-form'));
+  loginForm.triggerEventHandler('submit');
   fixture.detectChanges();
 };

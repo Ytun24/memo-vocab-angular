@@ -87,9 +87,35 @@ describe('AuthService - Browser', () => {
     expect(result).toEqual('');
   });
 
+  it('[postForgotPassword] should call post forgot password correctly', () => {
+    const testData = {
+      email: 'test@mail.com',
+    };
+    service.postForgotPassword(testData).subscribe();
+
+    const req = httpTestingController.expectOne(environment.beUrl + '/forgot-password');
+    expect(req.request.method).toEqual('POST');
+    req.flush({});
+    httpTestingController.verify();
+  });
+
+  it('[postResetPassword] should call post reset password correctly', () => {
+    const testData = {
+      password: 'password',
+      confirmPassword: 'password',
+      resetToken: 'mocktoken',
+      userId: 'u-123'
+    };
+    service.postResetPassword(testData).subscribe();
+
+    const req = httpTestingController.expectOne(environment.beUrl + '/reset-password');
+    expect(req.request.method).toEqual('POST');
+    req.flush({});
+    httpTestingController.verify();
+  });
 });
 
-describe('AuthService - Browser', () => {
+describe('AuthService - Server', () => {
   let service: AuthService;
   let httpTestingController: HttpTestingController;
 
