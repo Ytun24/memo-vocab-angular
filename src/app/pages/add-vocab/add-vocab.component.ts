@@ -3,16 +3,18 @@ import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VocabService } from '../../services/vocab.service';
 import { Router } from '@angular/router';
+import { NotificationComponent } from '../../components/notification/notification.component';
 
 @Component({
   selector: 'app-add-vocab',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NotificationComponent],
   templateUrl: './add-vocab.component.html',
   styleUrl: './add-vocab.component.scss',
 })
 export class AddVocabComponent {
   vocabForm: any;
+  displayNoti = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +30,7 @@ export class AddVocabComponent {
     });
   }
 
-  onImagePicked(event: Event) {
+  onImageSelected(event: Event) {
     const files = (event.target as HTMLInputElement).files ?? [];
     if (files.length > 0) {
       const file = files[0];
@@ -44,6 +46,9 @@ export class AddVocabComponent {
           console.log(data);
           this.router.navigate(['/']);
         },
+        error: (err) => {
+          this.displayNoti = true;
+        }
       });
     }
   }

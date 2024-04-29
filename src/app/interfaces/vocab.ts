@@ -1,6 +1,6 @@
 export interface Vocab {
-    _id: string;
+    _id?: string;
     title: string;
     meaning: string;
-    imageUrl?: string;
+    imageUrl?: string | File;
 }
